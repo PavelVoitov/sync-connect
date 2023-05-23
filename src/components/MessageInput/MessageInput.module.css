@@ -1,0 +1,22 @@
+.inputBlock {
+    height: 80px;
+    background-color: grey;
+    padding: 3px;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.input {
+    border: none;
+    width: 90%;
+    max-height: 80px;
+    padding: 10px;
+    font-size: 16px;
+    overflow-wrap: break-word;
+    resize: none;
+}
+
+textarea::placeholder {
+    font-size: 16px;
+}
