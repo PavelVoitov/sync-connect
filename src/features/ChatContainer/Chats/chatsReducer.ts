@@ -1,10 +1,11 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {ChatType} from "features/ChatContainer/Chats/chatsTypes";
 
 export const chatsSlice = createSlice({
 	name: 'chatListSlice',
 	initialState: {
 		chats: [] as ChatType[],
-		maxChatsCount: 8
+		maxChatsCount: 2
 	},
 	reducers: {
 		createChat: (state, action: PayloadAction<{ phoneNumber: string }>) => {

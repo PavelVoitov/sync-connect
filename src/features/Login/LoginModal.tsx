@@ -1,11 +1,14 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Box, Typography, Modal } from '@mui/material';
-import { FormControl, FormGroup, InputLabel, Input } from '@mui/material';
-import { userSliceActions, UserType } from 'features/Login/login-reducer';
-import { useActions, useAppSelector } from 'utils/redux-utils';
+import {Formik, Form, Field} from 'formik';
+import {Box, Typography, Modal} from '@mui/material';
+import {FormControl, FormGroup, InputLabel, Input} from '@mui/material';
+import {userSliceActions, UserType} from 'features/Login/loginReducer';
+import {useActions, useAppSelector} from 'utils/redux-utils';
 import * as yup from 'yup';
-import { selectUser } from 'features/Login/selectors';
+import {selectUser} from 'features/Login/selectors';
+import {ErrorMessageField} from "components/ErrorMessageField/ErrorMessageField";
+import {CustomButton} from "components/CustomButton/CustomButton";
+import {useNavigate} from "react-router-dom";
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -24,11 +27,12 @@ type Props = {
 	handleClose: () => void;
 };
 
-export const LoginModal = ({ open, handleClose }: Props) => {
-	const { setUser, isAuth } = useActions(userSliceActions);
+export const LoginModal = ({open, handleClose}: Props) => {
+	const navigate = useNavigate()
+	const {setUser, isAuth} = useActions(userSliceActions);
 	const schema = yup.object({
-		idInstance: yup.string().required('IdInstance обязательно'),
-		apiTokenInstance: yup.string().required('ApiTokenInstance обязательно'),
+		idInstance: yup.string().required('Поле обязательно'),
+		apiTokenInstance: yup.string().required('Поле обязательно'),
 	});
 
 	const user = useAppSelector(selectUser);
@@ -43,6 +47,7 @@ export const LoginModal = ({ open, handleClose }: Props) => {
 		isAuth(true);
 		setUser(data);
 		handleClose();
+		navigate('/')
 	};
 
 	return (
@@ -55,10 +60,10 @@ export const LoginModal = ({ open, handleClose }: Props) => {
 				<FormControl>
 					<Typography
 						marginBottom={'20px'}
-						component="h1"
-						sx={{ fontSize: '26px', fontWeight: '600' }}
+						component="h2"
+						sx={{fontSize: '24px', fontWeight: '600', textAlign: 'center'}}
 					>
-						Введите свои учетные данные
+						Введите свои учетные данные из системы GREEN-API:
 					</Typography>
 					<Formik
 						initialValues={initialValues}
@@ -66,32 +71,20 @@ export const LoginModal = ({ open, handleClose }: Props) => {
 						onSubmit={onSubmit}
 					>
 						<Form>
-							<FormGroup sx={{ alignItems: 'center', fontSize: '16px', fontWeight: '500' }}>
-								<FormControl sx={{ width: '35ch' }} variant="standard">
+							<FormGroup sx={{alignItems: 'center', fontSize: '16px', fontWeight: '500'}}>
+								<FormControl sx={{width: '35ch', marginBottom: '10px'}} variant="standard">
 									<InputLabel htmlFor="idInstance">IdInstance</InputLabel>
-									<Field as={Input} id="idInstance" name="idInstance" />
-									<ErrorMessage name="idInstance" component="div" />
+									<Field as={Input} id="idInstance" name="idInstance"/>
+									<ErrorMessageField/>
 								</FormControl>
 							</FormGroup>
-							<FormGroup sx={{ alignItems: 'center', fontSize: '16px', fontWeight: '500' }}>
-								<FormControl sx={{ width: '35ch' }} variant="standard">
+							<FormGroup sx={{alignItems: 'center', fontSize: '16px', fontWeight: '500'}}>
+								<FormControl sx={{width: '35ch'}} variant="standard">
 									<InputLabel htmlFor="apiTokenInstance">ApiTokenInstance</InputLabel>
-									<Field as={Input} id="apiTokenInstance" name="apiTokenInstance" />
-									<ErrorMessage name="apiTokenInstance" component="div" />
+									<Field as={Input} id="apiTokenInstance" name="apiTokenInstance"/>
+									<ErrorMessageField/>
 								</FormControl>
-								<button
-									type="submit"
-									style={{
-										borderRadius: '30px',
-										marginTop: '40px',
-										width: '100%',
-										padding: '17px 0',
-										fontSize: '16px',
-										fontWeight: '500',
-									}}
-								>
-									Войти
-								</button>
+								<CustomButton type="submit">Войти</CustomButton>
 							</FormGroup>
 						</Form>
 					</Formik>

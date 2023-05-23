@@ -1,0 +1,33 @@
+.chatBlock {
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.photoNameBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+    width: 50%;
+}
+
+.photo {
+    border-radius: 50%;
+}
+
+.close {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+img {
+    height: 80px;
+    width: 80px;
+}

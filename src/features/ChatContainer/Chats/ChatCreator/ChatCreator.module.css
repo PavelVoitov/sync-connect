@@ -1,0 +1,20 @@
+.chatCreatorBlock {
+    padding: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+}
+
+.plusWrapper {
+    display: block;
+    cursor: pointer;
+    border: none;
+}
+
+.chatCreatorSpan {
+    display: block;
+    font-weight: bold;
+    padding-bottom: 5px;
+}

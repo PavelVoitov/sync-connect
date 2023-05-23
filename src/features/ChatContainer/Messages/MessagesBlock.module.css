@@ -1,5 +1,25 @@
 .messagesBlock {
-    background-color: cadetblue;
     height: 100%;
     width: 60%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+
+.sendMessageBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    padding:  0 10px 0 10px;
+}
+
+.logout {
+    display: flex;
+    justify-content: end;
+    padding: 10px;
+}
+
+.button {
+    cursor: pointer;
+    border: none;
 }
