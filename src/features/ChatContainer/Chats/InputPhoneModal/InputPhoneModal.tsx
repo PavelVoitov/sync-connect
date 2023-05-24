@@ -53,7 +53,6 @@ export const InputPhoneModal = ({open, closeModal}: Props) => {
 		if (phoneNumber.trim() !== '') {
 			createChat({phoneNumber})
 			setPhoneNumber('')
-			debugger
 			closeModal()
 			navigate(`/${phoneNumber}`)
 		} else {

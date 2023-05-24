@@ -6,6 +6,7 @@ import {LoginModal} from "features/Login/LoginModal";
 import {selectIsLoggedIn, selectUser} from "features/Login/selectors";
 import { useSelector } from 'react-redux';
 import {Route, Routes} from "react-router-dom";
+import {ErrorSnackbars} from "components/ErrorSnackbar/ErrorSnackbar";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <div className={s.app}>
+      <ErrorSnackbars/>
       <header className={s.header}></header>
       <Routes>
         <Route path="/" element={isLoggedIn ? <ChatContainer/> : <LoginModal open={open} handleClose={handleClose}/>}/>

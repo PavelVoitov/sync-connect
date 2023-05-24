@@ -1,10 +1,9 @@
 import * as React from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, {AlertProps} from '@mui/material/Alert';
-import {useSelector} from "react-redux";
-import { AppDispatch } from 'utils/redux-utils';
-import {ErrorType} from "features/ChatContainer/Messages/MessagesField/messagesReducer";
-import {RootState} from "app/store";
+import {AppDispatch, useAppSelector} from 'utils/redux-utils';
+import {selectError} from "features/ChatContainer/Messages/MessagesField/messagesSelectors";
+import {messagesActions} from "features/ChatContainer/Messages/MessagesField/messagesReducer";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
@@ -14,7 +13,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 export function ErrorSnackbars() {
-    const error = useSelector<RootState, ErrorType>(state => state.messages.error)
+    const error = useAppSelector(selectError)
     const isOpen = error !== null
     const dispatch = AppDispatch()
 
@@ -22,7 +21,7 @@ export function ErrorSnackbars() {
         if (reason === 'clickaway') {
             return;
         }
-        // dispatch(appActions.setAppError({error: null}))
+        dispatch(messagesActions.setError({error: null}))
     };
 
     return (

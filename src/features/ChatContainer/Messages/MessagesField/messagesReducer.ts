@@ -1,46 +1,63 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AxiosError, isAxiosError} from 'axios';
 import {messagesAPI} from "features/ChatContainer/Messages/MessagesField/messagesAPI";
-import {UserType} from "features/Login/loginReducer";
+import {RootState} from "app/store";
 
 
 export const sendMessage = createAsyncThunk('messages/sendMessage',
-	async (arg: { chatId: string, message: string, user: UserType }) => {
-	try {
-		const requestChatId = `${arg.chatId}@c.us`
-		const res = await messagesAPI.sendMessage({chatId: requestChatId, message: arg.message}, arg.user)
-		return ({chatId: arg.chatId, message: arg.message, owner: true, messageId: res.data.idMessage})
-	} catch (e) {
-		console.log(e)
-	}
+	async (arg: { chatId: string, message: string }, thunkAPI) => {
+		const state = thunkAPI.getState() as RootState
+		const user = state.login.user
+		try {
+			const requestChatId = `${arg.chatId}@c.us`
+			const res = await messagesAPI.sendMessage({chatId: requestChatId, message: arg.message}, user)
+			return ({chatId: arg.chatId, message: arg.message, owner: true, messageId: res.data.idMessage})
+		} catch (e) {
+			const err = e as Error | AxiosError<{ error: string }>;
+			if (isAxiosError(err)) {
+				debugger
+				console.log(err)
+				const error = err.response ? err.response.data.error : err.message;
+				thunkAPI.dispatch(messagesActions.setError({error}));
+			}
+			debugger
+			console.log(err)
+			return thunkAPI.rejectWithValue(null);
+		}
 	})
 
-export const getMessage = createAsyncThunk<MessagesArrayType, void>(
+export const getMessage = createAsyncThunk(
 	'messages/getMessage',
-	async (_, thunkAPI) => {
-		const {dispatch, getState} = thunkAPI
-		const user = getState().user.user
+	async (arg: { chatId: string }, thunkAPI) => {
+		const state = thunkAPI.getState() as RootState
+		const user = state.login.user
 		try {
 			const res = await messagesAPI.getMessage(user);
-			dispatch(messagesThunks.deleteNotification(res.data.receiptId))
+			thunkAPI.dispatch(messagesThunks.deleteNotification(res.data.receiptId))
+			return ({
+				chatId: arg.chatId,
+				message: res.data.body.messageData.textMessageData.textMessage,
+				owner: false,
+				messageId: res.data.idMessage
+			})
 		} catch (e) {
 			const err = e as Error | AxiosError<{ error: string }>;
 			if (isAxiosError(err)) {
 				const error = err.response ? err.response.data.error : err.message;
-				dispatch(messagesActions.setError({ error }));
+				thunkAPI.dispatch(messagesActions.setError({error}));
 			}
 			return thunkAPI.rejectWithValue(null);
 		}
-			return {id: '2', message: res.data.body.messageData.textMessageData.textMessage}
-		})
 
-// const deleteNotification = createAsyncThunk(
-// 	'messages/deleteNotification',
-// 	async (arg, thunkAPI) => {
-// 		const state = thunkAPI.getState() as RootState
-// 		await messagesAPI.deleteNotification(arg, state.login.user);
-// 	}
-// );
+	})
+
+const deleteNotification = createAsyncThunk(
+	'messages/deleteNotification',
+	async (arg: string, thunkAPI) => {
+		const state = thunkAPI.getState() as RootState
+		await messagesAPI.deleteNotification(arg, state.login.user);
+	}
+);
 
 export const messagesSlice = createSlice({
 	name: 'messages',
@@ -52,29 +69,35 @@ export const messagesSlice = createSlice({
 		setError: (state, action: PayloadAction<{ error: string | null }>) => {
 			state.error = action.payload.error;
 		},
-		// createChat: (state, action: PayloadAction<{ phoneNumber: string }>) => {
-		// 	state.messages[action.payload.phoneNumber] = []
-		// }
 	},
 	extraReducers: (builder) => {
 		builder
 			.addCase(getMessage.fulfilled, (state, action) => {
-				state.messages.push(action.payload)
-				state.userMessage = action.payload.message
+				state.messages[action.payload.chatId].push({
+					messageId: action.payload.messageId,
+					message: action.payload.message,
+					owner: action.payload.owner,
+					chatId: action.payload.chatId
+				})
 			})
 			.addCase(sendMessage.fulfilled, (state, action) => {
-				if (action.payload) {
-					if (!state.messages[action.payload.chatId]) {
-						state.messages[action.payload.chatId] = []
+					if (action.payload) {
+						if (!state.messages[action.payload.chatId]) {
+							state.messages[action.payload.chatId] = []
+						}
+						state.messages[action.payload.chatId].push({
+							messageId: action.payload.messageId,
+							message: action.payload.message,
+							owner: action.payload.owner,
+							chatId: action.payload.chatId
+						})
 					}
-					state.messages[action.payload.chatId].push({messageId: action.payload.messageId, message: action.payload.message, owner: action.payload.owner, chatId: action.payload.chatId})
 				}
-	}
 			)
 	},
 });
 
-export const messagesThunks = {sendMessage};
+export const messagesThunks = {sendMessage, getMessage, deleteNotification};
 export const messagesActions = messagesSlice.actions
 export const messagesReducer = messagesSlice.reducer;
 

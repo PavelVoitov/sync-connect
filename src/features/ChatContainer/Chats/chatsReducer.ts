@@ -5,7 +5,7 @@ export const chatsSlice = createSlice({
 	name: 'chatListSlice',
 	initialState: {
 		chats: [] as ChatType[],
-		maxChatsCount: 2
+		maxChatsCount: 2,
 	},
 	reducers: {
 		createChat: (state, action: PayloadAction<{ phoneNumber: string }>) => {

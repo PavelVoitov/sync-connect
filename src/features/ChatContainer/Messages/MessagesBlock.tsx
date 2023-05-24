@@ -3,11 +3,10 @@ import {MessageInput} from "components/MessageInput/MessageInput";
 import {MessagesField} from "features/ChatContainer/Messages/MessagesField/MessagesField";
 import {ButtonSendMessage} from "components/ButtonSendMessage/ButtonSendMessage";
 import LogoutIcon from '@mui/icons-material/Logout';
-import {useActions, useAppSelector} from "utils/redux-utils";
+import {useActions} from "utils/redux-utils";
 import {userSliceActions} from "features/Login/loginReducer";
 import {messagesThunks} from "features/ChatContainer/Messages/MessagesField/messagesReducer";
 import {useState} from "react";
-import {selectUser} from "features/Login/selectors";
 import {useParams} from "react-router-dom";
 
 type Props = {
@@ -18,14 +17,7 @@ export const MessagesBlock = ({isOpenChat}: Props) => {
 	const {setUser, isAuth} = useActions(userSliceActions)
 	const {sendMessage} = useActions(messagesThunks)
 	const [message, setMessage] = useState('')
-	const user = useAppSelector(selectUser)
 	const {chatId} = useParams();
-
-	// useEffect(()=> {
-	// 	if (isOpenChat) {
-	// 		setInterval(() => {}, 5000)
-	// 	}
-	// })
 
 	const handleLogout = () => {
 		isAuth(false)
@@ -33,10 +25,8 @@ export const MessagesBlock = ({isOpenChat}: Props) => {
 	}
 
 	const handleSendMessage = () => {
-		debugger
-		console.log(chatId)
-		if (chatId) {
-			sendMessage({chatId, message, user})
+		if (chatId && message !== '') {
+			sendMessage({chatId, message})
 		}
 	}
 

@@ -63,7 +63,7 @@ export const LoginModal = ({open, handleClose}: Props) => {
 						component="h2"
 						sx={{fontSize: '24px', fontWeight: '600', textAlign: 'center'}}
 					>
-						Введите свои учетные данные из системы GREEN-API:
+						Введите свои учетные данные из системы <a href="https://green-api.com/">GREEN-API</a>:
 					</Typography>
 					<Formik
 						initialValues={initialValues}

@@ -2,8 +2,8 @@ import s from './MessagesField.module.css'
 import {selectMessages} from "features/ChatContainer/Messages/MessagesField/messagesSelectors";
 import {useAppSelector} from "utils/redux-utils";
 import {Message} from "features/ChatContainer/Messages/Message/Message";
-import {MessageType} from "features/ChatContainer/Messages/MessagesField/messagesReducer";
-import {memo} from "react";
+import {messagesThunks, MessageType} from "features/ChatContainer/Messages/MessagesField/messagesReducer";
+import {memo, useEffect} from "react";
 
 
 type Props = {
@@ -11,14 +11,22 @@ type Props = {
 }
 
 export const MessagesField = memo(({chatId}: Props) => {
-
+const {getMessage} = messagesThunks
 	const messages = useAppSelector(selectMessages)
 	let messagesArr: any = []
-	if (chatId !== undefined) {
+	if (chatId) {
 		messagesArr = messages[chatId]
-		debugger
-		console.log(messagesArr)
 	}
+
+	useEffect(() => {
+		if (chatId) {
+			debugger
+			getMessage({chatId: chatId})
+			setInterval(() => {
+				getMessage({chatId: chatId})
+			}, 5000)
+		}
+	}, [])
 
 	return (
 		<div className={s.messagesFieldBlock}>
