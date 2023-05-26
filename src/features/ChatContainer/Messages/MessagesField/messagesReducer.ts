@@ -4,7 +4,7 @@ import {messagesAPI} from "features/ChatContainer/Messages/MessagesField/message
 import {RootState} from "app/store";
 
 
-export const sendMessage = createAsyncThunk('messages/sendMessage',
+const sendMessage = createAsyncThunk('messages/sendMessage',
 	async (arg: { chatId: string, message: string }, thunkAPI) => {
 		const state = thunkAPI.getState() as RootState
 		const user = state.login.user
@@ -15,18 +15,15 @@ export const sendMessage = createAsyncThunk('messages/sendMessage',
 		} catch (e) {
 			const err = e as Error | AxiosError<{ error: string }>;
 			if (isAxiosError(err)) {
-				debugger
-				console.log(err)
 				const error = err.response ? err.response.data.error : err.message;
 				thunkAPI.dispatch(messagesActions.setError({error}));
 			}
-			debugger
-			console.log(err)
+			thunkAPI.dispatch(messagesActions.setError({error: err.message}))
 			return thunkAPI.rejectWithValue(null);
 		}
 	})
 
-export const getMessage = createAsyncThunk(
+const getMessage = createAsyncThunk(
 	'messages/getMessage',
 	async (arg: { chatId: string }, thunkAPI) => {
 		const state = thunkAPI.getState() as RootState

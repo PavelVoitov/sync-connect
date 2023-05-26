@@ -15,7 +15,6 @@ function App() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const user = useAppSelector(selectUser)
-  console.log(isLoggedIn)
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -32,7 +31,7 @@ function App() {
       <header className={s.header}></header>
       <Routes>
         <Route path="/" element={isLoggedIn ? <ChatContainer/> : <LoginModal open={open} handleClose={handleClose}/>}/>
-        <Route path="/:chatId" element={isLoggedIn ? <ChatContainer isOpenChat={true}/> : <LoginModal open={open} handleClose={handleClose}/>}/>
+        <Route path="/:chatId" element={isLoggedIn ? <ChatContainer/> : <LoginModal open={open} handleClose={handleClose}/>}/>
       </Routes>
     </div>
   );

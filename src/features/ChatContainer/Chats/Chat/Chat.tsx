@@ -1,18 +1,16 @@
 import s from './Chat.module.css'
 import avatar from '../../../../assets/image/avatar.png'
-import {useActions} from "utils/redux-utils";
-import {chatsSliceActions} from "features/ChatContainer/Chats/chatsReducer";
 import {Link} from "react-router-dom";
 
 type Props = {
+	handleDeleteChat: (phoneNumber: string) => void
 	phoneNumber: string
 }
 
-export const Chat = ({phoneNumber}: Props) => {
-	const {deleteChat} = useActions(chatsSliceActions)
+export const Chat = ({phoneNumber, handleDeleteChat}: Props) => {
 
-	const handleDeleteChat = () => {
-		deleteChat({phoneNumber})
+	const deleteChat = () => {
+		handleDeleteChat(phoneNumber)
 	}
 
 	return (
@@ -29,7 +27,7 @@ export const Chat = ({phoneNumber}: Props) => {
 					</Link>
 				</div>
 			</div>
-			<div className={s.close} onClick={handleDeleteChat}>
+			<div className={s.close} onClick={deleteChat}>
 				закрыть
 			</div>
 		</div>

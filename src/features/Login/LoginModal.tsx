@@ -1,11 +1,9 @@
 import React from 'react';
-import {Formik, Form, Field} from 'formik';
-import {Box, Typography, Modal} from '@mui/material';
-import {FormControl, FormGroup, InputLabel, Input} from '@mui/material';
+import {Field, Form, Formik} from 'formik';
+import {Box, FormControl, FormGroup, Input, InputLabel, Modal, Typography} from '@mui/material';
 import {userSliceActions, UserType} from 'features/Login/loginReducer';
-import {useActions, useAppSelector} from 'utils/redux-utils';
+import {useActions} from 'utils/redux-utils';
 import * as yup from 'yup';
-import {selectUser} from 'features/Login/selectors';
 import {ErrorMessageField} from "components/ErrorMessageField/ErrorMessageField";
 import {CustomButton} from "components/CustomButton/CustomButton";
 import {useNavigate} from "react-router-dom";
@@ -34,9 +32,6 @@ export const LoginModal = ({open, handleClose}: Props) => {
 		idInstance: yup.string().required('Поле обязательно'),
 		apiTokenInstance: yup.string().required('Поле обязательно'),
 	});
-
-	const user = useAppSelector(selectUser);
-	console.log(user);
 
 	const initialValues: UserType = {
 		idInstance: '',
