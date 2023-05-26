@@ -1,46 +1,42 @@
-# Getting Started with Create React App
+## Описание функционала приложения Sync-Connect для отправки и получения сообщений WhatsApp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+Это веб-приложение разработано с использованием React и GREEN-API для обмена текстовыми сообщениями в WhatsApp.
+Интерфейс приложения имеет внешний вид чата WhatsApp (https://web.whatsapp.com/) и предоставляет минимальный набор функций.
 
-In the project directory, you can run:
+В проекте также использовались следующие основные библиотеки:
 
-### `yarn start`
+- Material-UI для создания пользовательского интерфейса с использованием готовых компонентов и стилей.
+- Redux Toolkit для управления состоянием приложения.
+- Axios для выполнения HTTP-запросов к GREEN-API.
+- React-router-dom для навигации между страницами. 
+Эти библиотеки были внедрены с целью обеспечить эффективную разработку, функциональность и визуальное оформление приложения.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Функционал
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Отправка сообщений: Пользователь может написать текстовое сообщение и отправить его получателю в WhatsApp.
+- Получение сообщений: Пользователь видит ответы получателя в чате, когда те поступают в WhatsApp.
+- Интерфейс чата: Прототип интерфейса приложения внешне похож на чат WhatsApp для удобного использования.
 
-### `yarn test`
+### Использование приложения
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Перейдите на веб-сайт приложения для чата WhatsApp. (https://pavelvoitov.github.io/sync-connect/)
+2. Введите свои учетные данные GREEN-API (idInstance, apiTokenInstance).
+3. Создайте новый чат, указав номер телефона получателя.
+4. Напишите текстовое сообщение и отправьте его получателю в WhatsApp.
+5. Ответ получателя будет отображен в чате.
 
-### `yarn build`
+### Установка и запуск
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Склонируйте репозиторий на свой локальный компьютер.
+2. Установите зависимости, выполнив команду: `npm install`.
+3. Запустите приложение, выполнив команду: `npm start`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Примечания
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Для использования GREEN-API требуется получить свои учетные данные (idInstance, apiTokenInstance) и ввести их при запуске приложения.
+- Для корректной работы приложения необходимо наличие интернет-соединения.
 
-### `yarn eject`
+### Дополнительная информация
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+Для получения дополнительной информации об использовнии GREEN-API, обратитесь к документации: https://green-api.com/docs
